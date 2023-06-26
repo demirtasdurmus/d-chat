@@ -31,10 +31,10 @@ jobs:
         run: npm ci
 
       - name: Lint Client
-        run: nx lint d-client
+        run: npx nx lint d-client
 
       - name: Lint Server
-        run: nx lint d-server
+        run: npx nx lint d-server
 
   Testing:
     needs: Linting
@@ -56,11 +56,11 @@ jobs:
         run: npm ci
 
       - name: Run Client Unit Tests
-        run: nx test d-client
+        run: npx nx test d-client
 
       - name: Run Server Unit Tests
-        run: nx test d-server
+        run: npx nx test d-server
 
       - name: Run Server Integration Tests
-        run: nx test:integration d-server
+        run: npx nx test:integration d-server
 
