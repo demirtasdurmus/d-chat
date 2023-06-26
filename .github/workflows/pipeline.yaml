@@ -19,16 +19,8 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & Cache Dependencies
+        uses: ./.github/actions/cached-deps
 
       - name: Lint Client
         run: npx nx lint d-client
@@ -44,16 +36,8 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        id: cache-node-modules
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install Dependencies
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & Cache Dependencies
+        uses: ./.github/actions/cached-deps
 
       - name: Run Client Unit Tests
         run: npx nx test d-client
