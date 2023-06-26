@@ -1,0 +1,23 @@
+{
+    "extends": ["../../.eslintrc.json"],
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "overrides": [
+        {
+            "files": ["*.test.ts", "*e2e.test.ts"],
+            "plugins": ["jest"],
+            "extends": ["plugin:jest/recommended"],
+            "rules": {
+                "jest/prefer-expect-assertions": "off",
+                "jest/no-disabled-tests": "warn",
+                "jest/no-focused-tests": "error",
+                "jest/no-identical-title": "error",
+                "jest/prefer-to-have-length": "warn",
+                "jest/valid-expect": "error",
+                "jest/max-expects": ["error", { "max": 5 }]
+            }
+        }
+    ]
+}

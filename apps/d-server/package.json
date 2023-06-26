@@ -1,0 +1,32 @@
+{
+    "name": "d-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "scripts": {
+        "dev": "nodemon --watch 'src/**' --ext 'ts,json' --ignore 'src/**/*.test.ts' --exec 'ts-node --files -H -T src/index.ts'",
+        "build": "tsc --pretty -p tsconfig.build.json",
+        "start": "node ../../dist/apps/d-server",
+        "test": "jest",
+        "test:watch": "jest --watchAll --no-cache  --detectOpenHandles",
+        "test:int": "jest --config ./tests/jest-e2e.config.ts",
+        "test:int:watch": "jest --watchAll --no-cache  --detectOpenHandles --config ./tests/jest-e2e.config.ts",
+        "test:cov": "jest --coverage",
+        "format:prettier": "prettier ./ --write",
+        "lint": "eslint ./src/**/*.{ts,test.ts} ./tests/** --fix"
+    },
+    "devDependencies": {
+        "@types/jest": "^29.5.2",
+        "@types/supertest": "^2.0.12",
+        "eslint-plugin-jest": "^27.2.1",
+        "nodemon": "^2.0.22",
+        "nx": "16.4.0",
+        "supertest": "^6.3.3",
+        "ts-jest": "^29.1.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^5.1.3"
+    }
+}
