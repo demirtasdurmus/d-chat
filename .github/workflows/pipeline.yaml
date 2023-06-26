@@ -62,5 +62,5 @@ jobs:
         run: npx nx test d-server
 
       - name: Run Server Integration Tests
-        run: npx nx test:integration d-server
+        run: npx nx test:int d-server
 
