@@ -1,11 +1,16 @@
-import { server } from './server';
-
-server.listen(3000, () => {
+process.on('uncaughtException', (err: unknown) => {
     // eslint-disable-next-line no-console
-    console.log('Server is listening on port 3000');
+    console.error('There was an uncaught error', err);
+    process.exit(1);
 });
 
-const port = process.env.PORT;
+import { createServer } from 'http';
+import { app } from './app';
 
-// eslint-disable-next-line no-console
-console.log(port);
+const PORT = process.env.PORT || 8000;
+const server = createServer(app);
+
+server.listen(PORT, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Server listening on port ${PORT}.`);
+});
