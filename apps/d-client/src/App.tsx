@@ -1,11 +1,33 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
 import { Accordion } from './components/Accordion/Accordion';
+import io from 'socket.io-client';
+
+const socket = io('http://localhost:8000');
 
 function App() {
     const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        socket.on('connect', () => {
+            // eslint-disable-next-line no-console
+            console.log('connected');
+        });
+
+        socket.on('message', (data) => {
+            // eslint-disable-next-line no-console
+            console.log(data);
+        });
+
+        socket.emit('message', 'Hello from client');
+
+        socket.on('disconnect', () => {
+            // eslint-disable-next-line no-console
+            console.log('disconnected');
+        });
+    }, []);
 
     return (
         <>
