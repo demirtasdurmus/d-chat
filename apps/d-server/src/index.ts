@@ -6,9 +6,12 @@ process.on('uncaughtException', (err: unknown) => {
 
 import { createServer } from 'http';
 import { app } from './app';
+import { startSocket } from './socket';
 
 const PORT = process.env.PORT || 8000;
 const server = createServer(app);
+
+startSocket(server);
 
 server.listen(PORT, () => {
     // eslint-disable-next-line no-console
