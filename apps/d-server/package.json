@@ -12,8 +12,8 @@
         "start": "node ../../dist/apps/d-server",
         "test": "jest",
         "test:watch": "jest --watchAll --no-cache  --detectOpenHandles",
-        "test:int": "jest --config ./tests/jest-e2e.config.ts",
-        "test:int:watch": "jest --watchAll --no-cache  --detectOpenHandles --config ./tests/jest-e2e.config.ts",
+        "test:int": "jest --config ./tests/jest-int.config.ts",
+        "test:int:watch": "jest --watchAll --no-cache  --detectOpenHandles --config ./tests/jest-int.config.ts",
         "test:cov": "jest --coverage",
         "format:prettier": "prettier ./ --write",
         "lint": "eslint ./src/**/*.{ts,test.ts} ./tests/** --fix"
