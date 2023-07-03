@@ -1,9 +1,9 @@
 import { Server as HttpServer } from 'http';
 import { Server, Socket } from 'socket.io';
 
-export function startSocket(server: HttpServer) {
+export function startSocket(httpServer: HttpServer) {
     // Create Socket.io server
-    const io = new Server(server, {
+    const io = new Server(httpServer, {
         cors: {
             origin: '*',
         },
