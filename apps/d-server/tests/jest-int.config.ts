@@ -14,5 +14,6 @@ const config: Config.InitialOptions = {
     //     '^src/(.*)$': '<rootDir>/src/$1',
     //     '^tests/(.*)$': '<rootDir>/tests/$1',
     // },
+    forceExit: true,
 };
 export default config;
