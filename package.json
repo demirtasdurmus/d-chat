@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
+        "dev": "nx run-many --target=dev --projects=d-server,d-client",
         "commit": "commit",
         "prepare": "husky install"
     },
