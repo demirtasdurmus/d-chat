@@ -5,8 +5,16 @@ on:
     branches:
       - main
       - development
+  push:
+    branches:
+      - main
 
   workflow_dispatch:
+
+env:
+    GITHUB_BASE_REF: ${{ github.base_ref }}
+    GITHUB_HEAD_REF: ${{ github.head_ref }}
+    GITHUB_EVENT_NAME: ${{ github.event_name }}
 
 jobs:
   Linting:
@@ -20,18 +28,17 @@ jobs:
       - name: Load & Cache Dependencies
         uses: ./.github/actions/cached-deps
 
-      - name: Run Affected in Pull Request
+      - name: Get Nx Shas
         uses: nrwl/nx-set-shas@v3
-        if: ${{ github.event_name == 'pull_request' }}
-    #   - run: npx nx format:check
+
 
       - name: Run Affected in Pull Request
-        if: ${{ github.event_name == 'pull_request' }}
+        if: env.GITHUB_EVENT_NAME == 'pull_request'
         run: |
-            npx nx affected:lint --base=origin/${{github.base_ref}} --head=origin/${{github.head_ref}} --parallel=3
+            npx nx affected:lint --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
 
       - name: Run All if not Pull Request
-        if: ${{ github.event_name != 'pull_request' }}
+        if: env.GITHUB_EVENT_NAME != 'pull_request'
         run: |
             npx nx lint d-client
             npx nx lint d-server
