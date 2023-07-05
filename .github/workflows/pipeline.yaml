@@ -30,6 +30,7 @@ jobs:
 
       - name: Get Nx Shas
         uses: nrwl/nx-set-shas@v3
+        # NX_BASE and NX_HEAD environment variables will be set in this Job
 
       - name: Run Affected Lint in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
@@ -37,9 +38,7 @@ jobs:
 
       - name: Run All Lints in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
-        run: |
-            npx nx lint d-client
-            npx nx lint d-server
+        run: npx nx affected -t lint --base=origin/${{env.NX_BASE}} --head=origin/${{env.NX_HEAD}} --parallel=3
 
   Testing:
     needs: Linting
@@ -56,6 +55,7 @@ jobs:
 
       - name: Get Nx Shas
         uses: nrwl/nx-set-shas@v3
+        # NX_BASE and NX_HEAD environment variables will be set in this Job
 
       - name: Run Affected Unit Tests in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
@@ -67,11 +67,10 @@ jobs:
 
       - name: Run All Unit Tests in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
-        run: |
-            npx nx test d-client
-            npx nx test d-server
+        run: npx nx affected -t test --base=origin/${{env.NX_BASE}} --head=origin/${{env.NX_HEAD}} --parallel=3
 
       - name: Run All Integration Tests in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
-        run: npx nx test:int d-server
+        run: npx nx affected -t test:int --base=origin/${{env.NX_BASE}} --head=origin/${{env.NX_HEAD}} --parallel=3
+
 
