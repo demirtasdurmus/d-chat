@@ -11,6 +11,7 @@ runs:
 
     - name: Echo
       run: echo "cache hit ${{ steps.cache-node-modules.outputs.cache-hit }}"
+      shell: bash
 
     - name: Install Dependencies
       if: steps.cache-node-modules.outputs.cache-hit != 'true'
