@@ -20,27 +20,21 @@ jobs:
       - name: Load & Cache Dependencies
         uses: ./.github/actions/cached-deps
 
-      - name: Derive appropriate SHAs for base and head for `nx affected` commands
-        id: setSHAs
+      - name: Run Affected in Pull Request
         uses: nrwl/nx-set-shas@v3
-
-      - run: |
-          echo "BASE: ${{ steps.setSHAs.outputs.base }}"
-          echo "HEAD: ${{ steps.setSHAs.outputs.head }}"
-
-
-      - name: Affected
-        uses: nrwl/nx-set-shas@v3
+        if: ${{ github.event_name == 'pull_request' }}
     #   - run: npx nx format:check
-      - run: npx nx affected:lint --base=origin/${{github.base_ref}} --head=origin/${{github.head_ref}} --parallel=3
-    #   - run: npx nx affected -t test --parallel=3 --configuration=ci
-    #   - run: npx nx affected -t build --parallel=3
 
-      - name: Lint Client
-        run: npx nx lint d-client
+      - name: Run Affected in Pull Request
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+            npx nx affected:lint --base=origin/${{github.base_ref}} --head=origin/${{github.head_ref}} --parallel=3
 
-      - name: Lint Server
-        run: npx nx lint d-server
+      - name: Run All if not Pull Request
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+            npx nx lint d-client
+            npx nx lint d-server
 
   Testing:
     needs: Linting
