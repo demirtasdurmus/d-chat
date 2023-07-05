@@ -28,9 +28,9 @@ jobs:
       - name: Load & Cache Dependencies
         uses: ./.github/actions/cached-deps
 
-      - name: Get Nx Shas
+      - name: Get & Set Nx Shas
+        id: setSHAs
         uses: nrwl/nx-set-shas@v3
-        # NX_BASE and NX_HEAD environment variables will be set in this Job
 
       - name: Run Affected Lint in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
@@ -38,7 +38,7 @@ jobs:
 
       - name: Run All Lints in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
-        run: npx nx affected -t lint --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}} --parallel=3
+        run: npx nx affected -t lint --base=${{steps.setSHAs.outputs.base}} --head=${{steps.setSHAs.outputs.head}} --parallel=3
 
   Testing:
     needs: Linting
@@ -54,8 +54,8 @@ jobs:
         uses: ./.github/actions/cached-deps
 
       - name: Get Nx Shas
+        id: setSHAs
         uses: nrwl/nx-set-shas@v3
-        # NX_BASE and NX_HEAD environment variables will be set in this Job
 
       - name: Run Affected Unit Tests in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
@@ -67,10 +67,10 @@ jobs:
 
       - name: Run All Unit Tests in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
-        run: npx nx affected -t test --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}} --parallel=3
+        run: npx nx affected -t test --base=${{steps.setSHAs.outputs.base}} --head=${{steps.setSHAs.outputs.head}} --parallel=3
 
       - name: Run All Integration Tests in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
-        run: npx nx affected -t test:int --base=${{env.NX_BASE}} --head=${{env.NX_HEAD}} --parallel=3
+        run: npx nx affected -t test:int --base=${{steps.setSHAs.outputs.base}} --head=${{steps.setSHAs.outputs.head}} --parallel=3
 
 
