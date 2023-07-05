@@ -18,6 +18,9 @@ jobs:
       - name: Load & Cache Dependencies
         uses: ./.github/actions/cached-deps
 
+      - name: Lint Affected
+        run: npx nx affected:lint --base=origin/development --parallel
+
       - name: Lint Client
         run: npx nx lint d-client
 
