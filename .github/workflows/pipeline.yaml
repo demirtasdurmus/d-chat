@@ -33,7 +33,7 @@ jobs:
 
       - name: Run Affected Lint in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
-        run: npx nx affected:lint --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
+        run: npx nx affected:lint --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_HEAD_REF}} --parallel=3
 
       - name: Run All Lints in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
@@ -59,11 +59,11 @@ jobs:
 
       - name: Run Affected Unit Tests in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
-        run: npx nx affected:test --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
+        run: npx nx affected:test --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_HEAD_REF}} --parallel=3
 
       - name: Run Affected Integration Tests in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
-        run: npx nx affected:test:int --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3 --exclude=d-client
+        run: npx nx affected:test:int --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_HEAD_REF}} --parallel=3 --exclude=d-client
 
       - name: Run All Unit Tests in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
