@@ -13,7 +13,12 @@ on:
 
 env:
   GITHUB_HEAD_REF: ${{ github.head_ref }}
-  GITHUB_BASE_REF: ${{ github.base_ref }}
+  GITHUB_BASE_REF: |
+    if [ -n "${{ github.base_ref }}" ]; then
+      echo "main"
+    else
+      echo "${{ github.base_ref }}"
+    fi
 
 jobs:
   Linting:
