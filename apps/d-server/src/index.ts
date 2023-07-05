@@ -15,5 +15,5 @@ startSocket(server);
 
 server.listen(PORT, () => {
     // eslint-disable-next-line no-console
-    console.log(`Server listening on port ${PORT}`);
+    console.log(`Server listening on port ${PORT}.`);
 });
