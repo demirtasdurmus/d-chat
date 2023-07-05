@@ -32,7 +32,7 @@ jobs:
       - name: Affected
         uses: nrwl/nx-set-shas@v3
     #   - run: npx nx format:check
-      - run: npx nx affected:lint --base="${{ steps.setSHAs.outputs.base }}" --head="${{ steps.setSHAs.outputs.head }}" --parallel=3
+      - run: npx nx affected -t lint --base="${{ steps.setSHAs.outputs.base }}" --head="${{ steps.setSHAs.outputs.head }}" --parallel=3
     #   - run: npx nx affected -t test --parallel=3 --configuration=ci
     #   - run: npx nx affected -t build --parallel=3
 
