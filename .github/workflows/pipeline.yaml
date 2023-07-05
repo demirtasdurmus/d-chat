@@ -33,12 +33,12 @@ jobs:
       - name: Lint Client
         run: |
             export PARALLEL="--parallel --maxParallel=3"
-            if [ -n "${{ github.base_ref }}" ]; then
+            if [ -z "${{ github.base_ref }}" ]; then
             export BASE="--base=origin/main"
             else
             export BASE="--base=origin/${{ github.base_ref }}"
             fi
-            npx nx affected:lint $PARALLEL $BASE
+            npx nx affected:lint $BASE $PARALLEL
 
 #   Testing:
 #     needs: Linting
