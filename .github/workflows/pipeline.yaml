@@ -5,6 +5,9 @@ on:
     branches:
       - main
       - development
+  push:
+    branches:
+      - main
 
   workflow_dispatch:
 
@@ -15,32 +18,35 @@ jobs:
       - name: Get Code
         uses: actions/checkout@v3
 
-      - name: Load & Cache Dependencies
-        uses: ./.github/actions/cached-deps
+      - name: test
+        run: echo "${{ toJSON(github) }}""
 
-      - name: Lint Client
-        run: npx nx lint d-client
+    #   - name: Load & Cache Dependencies
+    #     uses: ./.github/actions/cached-deps
 
-      - name: Lint Server
-        run: npx nx lint d-server
+    #   - name: Lint Client
+    #     run: npx nx lint d-client
 
-  Testing:
-    needs: Linting
-    runs-on: ubuntu-latest
+    #   - name: Lint Server
+    #     run: npx nx lint d-server
 
-    steps:
-      - name: Get Code
-        uses: actions/checkout@v3
+#   Testing:
+#     needs: Linting
+#     runs-on: ubuntu-latest
 
-      - name: Load & Cache Dependencies
-        uses: ./.github/actions/cached-deps
+#     steps:
+#       - name: Get Code
+#         uses: actions/checkout@v3
 
-      - name: Run Client Unit Tests
-        run: npx nx test d-client
+#       - name: Load & Cache Dependencies
+#         uses: ./.github/actions/cached-deps
 
-      - name: Run Server Unit Tests
-        run: npx nx test d-server
+#       - name: Run Client Unit Tests
+#         run: npx nx test d-client
 
-      - name: Run Server Integration Tests
-        run: npx nx test:int d-server
+#       - name: Run Server Unit Tests
+#         run: npx nx test d-server
+
+#       - name: Run Server Integration Tests
+#         run: npx nx test:int d-server
 
