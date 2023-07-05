@@ -31,13 +31,11 @@ jobs:
       - name: Get Nx Shas
         uses: nrwl/nx-set-shas@v3
 
-
-      - name: Run Affected in Pull Request
+      - name: Run Affected Lint in Pull Request Event
         if: env.GITHUB_EVENT_NAME == 'pull_request'
-        run: |
-            npx nx affected:lint --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
+        run: npx nx affected:lint --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
 
-      - name: Run All if not Pull Request
+      - name: Run All Lints in other Events
         if: env.GITHUB_EVENT_NAME != 'pull_request'
         run: |
             npx nx lint d-client
@@ -50,16 +48,30 @@ jobs:
     steps:
       - name: Get Code
         uses: actions/checkout@v3
+        with:
+            fetch-depth: 0
 
       - name: Load & Cache Dependencies
         uses: ./.github/actions/cached-deps
 
-      - name: Run Client Unit Tests
-        run: npx nx test d-client
+      - name: Get Nx Shas
+        uses: nrwl/nx-set-shas@v3
 
-      - name: Run Server Unit Tests
-        run: npx nx test d-server
+      - name: Run Affected Unit Tests in Pull Request Event
+        if: env.GITHUB_EVENT_NAME == 'pull_request'
+        run: npx nx affected:test --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
 
-      - name: Run Server Integration Tests
+      - name: Run Affected Integration Tests in Pull Request Event
+        if: env.GITHUB_EVENT_NAME == 'pull_request'
+        run: npx nx affected:test:int --base=origin/${{env.GITHUB_BASE_REF}} --head=origin/${{env.GITHUB_BASE_REF}} --parallel=3
+
+      - name: Run All Unit Tests in other Events
+        if: env.GITHUB_EVENT_NAME != 'pull_request'
+        run: |
+            npx nx test d-client
+            npx nx test d-server
+
+      - name: Run All Integration Tests in other Events
+        if: env.GITHUB_EVENT_NAME != 'pull_request'
         run: npx nx test:int d-server
 
