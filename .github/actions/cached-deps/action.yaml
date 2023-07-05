@@ -6,8 +6,6 @@ runs:
     - name: 'Cache Dependencies'
       uses: 'actions/cache@v3'
       with:
-        fetch-depth: 0
-      with:
         path: 'node_modules'
         key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
 
