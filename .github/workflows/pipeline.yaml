@@ -38,6 +38,7 @@ jobs:
             else
             export BASE="--base=origin/${{ github.base_ref }}"
             fi
+            git fetch origin ${BASE}:refs/remotes/origin/${BASE}
             npx nx affected:lint $BASE $PARALLEL
 
 #   Testing:
